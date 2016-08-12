@@ -1,5 +1,7 @@
 package banco;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 public class Conta {
 	private Integer codigo;
 	private String cliente;
@@ -19,25 +21,31 @@ public class Conta {
 	}
 	
 	public Double getSaldo() {
-		if(!saldo.isNaN()){
-			return saldo;
-		}
+		if(!saldo.isNaN()) return saldo;
+			
 		return 0.0;
 	}
 	
 	public void depositar(Double valorDeposito){
-		this.saldo += valorDeposito;
+		saldo += valorDeposito;
 	}
 	
-	public boolean sacar(Double valorSaque){
-		if(this.diferencaSaque(valorSaque) >= 0){
-			saldo -= valorSaque; 
-			return true;
-		}
-		return false;
+	public boolean sacar(Double valorSaque, Double desconto){
+		Double diferenca = desconto.isNaN() ? sacarSemDesconto(valorSaque) : sacarComDesconto(valorSaque, desconto);
+		
+		if (diferenca < 0) return false; 
+		
+		saldo -= diferenca;
+		return true;
 	}
 	
-	private Double diferencaSaque(Double valorSaque){
-		return this.getSaldo() - valorSaque;
+	private Double sacarSemDesconto(Double valorSaque){
+		return saldo - valorSaque;
 	}
+	
+	private Double sacarComDesconto(Double valorSaque, Double desconto){
+		return saldo - valorSaque + (valorSaque * desconto);
+	}
+	
+	
 }
