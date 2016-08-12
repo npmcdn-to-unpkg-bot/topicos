@@ -1,7 +1,5 @@
 package banco;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 public class Conta {
 	private Integer codigo;
 	private String cliente;
