@@ -19,17 +19,17 @@ public class Conta {
 	}
 	
 	public Double getSaldo() {
-		if(!saldo.isNaN()) return saldo;
+		if(saldo == null) return 0.0;
 			
-		return 0.0;
+		return saldo;
 	}
 	
 	public void depositar(Double valorDeposito){
-		saldo += valorDeposito;
+		saldo = getSaldo() + valorDeposito;
 	}
 	
-	public boolean sacar(Double valorSaque, Double desconto){
-		Double diferenca = desconto.isNaN() ? sacarSemDesconto(valorSaque) : sacarComDesconto(valorSaque, desconto);
+	public boolean sacar(Double valorSaque){
+		Double diferenca = getSaldo() - valorSaque;
 		
 		if (diferenca < 0) return false; 
 		
@@ -40,10 +40,5 @@ public class Conta {
 	private Double sacarSemDesconto(Double valorSaque){
 		return saldo - valorSaque;
 	}
-	
-	private Double sacarComDesconto(Double valorSaque, Double desconto){
-		return saldo - valorSaque + (valorSaque * desconto);
-	}
-	
 	
 }
